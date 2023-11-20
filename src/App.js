@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { fabric } from "fabric";
 import "./App.css";
 
 const FabricExample = () => {
+  const [activeTab, setActiveTab] = useState("");
   const fabricRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const initFabric = () => {
@@ -99,6 +100,9 @@ const FabricExample = () => {
   const disposeFabric = () => {
     fabricRef.current.dispose();
   };
+  const oepnTab = (param) => {
+    setActiveTab(param);
+  };
   useEffect(() => {
     initFabric();
     // addRectangle();
@@ -122,6 +126,21 @@ const FabricExample = () => {
         </div>
         <button onClick={getJson}>json 다운</button>
       </div>
+      activeTab:: {activeTab}
+      <div className="type">
+        <button onClick={() => oepnTab("textImage")}>TEXT IMAGE</button>
+        <button onClick={() => oepnTab("input")}>INPUT</button>
+      </div>
+      {activeTab === "textImage" && (
+        <div>
+          <div className="background-input">
+            <label for="background">배경 선택</label>
+            <input type="file" id="background" onChange={addImage}></input>
+          </div>
+          <button className="background-input">글씨 추가</button>
+        </div>
+      )}
+      {activeTab === "input" && <div>input</div>}
     </div>
   );
 };
