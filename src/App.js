@@ -4,6 +4,7 @@ import "./App.css";
 
 const FabricExample = () => {
   const [activeTab, setActiveTab] = useState("");
+  const [inputData, setInputData] = useState({ text: "", id: "" });
   const fabricRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   const initFabric = () => {
@@ -86,6 +87,11 @@ const FabricExample = () => {
       value.target.value = "";
     };
   };
+  const addInput = async () => {
+    console.log(inputData);
+    const text = new fabric.Text(inputData.text);
+    fabricRef.current.add(text);
+  };
   const getJson = () => {
     const json = fabricRef.current.getObjects().map((e) => {
       return {
@@ -140,7 +146,35 @@ const FabricExample = () => {
           <button className="background-input">글씨 추가</button>
         </div>
       )}
-      {activeTab === "input" && <div>input</div>}
+      {activeTab === "input" && (
+        <div className="wrap">
+          {/* <button>input추가</button> */}
+          <span> text 예시 1.장 &lt;answer 정답 answer&gt; 다.</span>
+          <span>
+            text:
+            <input
+              type="text"
+              placeholder="text"
+              name="text"
+              onChange={(e) =>
+                setInputData({ text: e.target.value, id: inputData.id })
+              }
+            />
+          </span>
+          <span>
+            id:
+            <input
+              type="text"
+              placeholder="id"
+              name="id"
+              onChange={(e) =>
+                setInputData({ text: inputData.text, id: e.target.value })
+              }
+            />
+          </span>
+          <button onClick={addInput}>추가</button>
+        </div>
+      )}
     </div>
   );
 };
